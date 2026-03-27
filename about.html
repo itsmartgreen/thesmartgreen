@@ -4,56 +4,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | TheSmartGreen</title>
+    <title>About Us | The Smart Green</title>
     <meta name="description"
         content="Learn about TheSmartGreen, our vision, mission, and commitment to sustainability.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
+    <!-- Navigation -->
     <header class="header">
         <div class="container">
-            <h1 class="logo">TheSmartGreen</h1>
-            <nav class="nav">
-                <a href="index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="services.html">Services</a>
-                <a href="contact.html">Contact</a>
+            <a href="index.html" class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>TheSmartGreen</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link active">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="contact.html" class="nav-link cta-link">Contact</a>
             </nav>
         </div>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
-        <div class="container">
-            <h2>About TheSmartGreen</h2>
-            <p>Driven by innovation. Guided by sustainability.</p>
+        <div class="stars"></div>
+        <div class="container hero-content" style="grid-template-columns: 1fr;">
+            <div class="hero-text">
+                <h1 class="hero-title" data-aos="fade-up">About TheSmartGreen</h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Building a trusted ecosystem for
+                    sustainable food and essentials</p>
+            </div>
         </div>
     </section>
 
-    <section class="container" style="padding:60px 0;">
-        <h3 style="color:#2E7D32;">Who We Are</h3>
-        <p>
-            TheSmartGreen is a sustainability-focused initiative aimed at promoting
-            smarter, eco-friendly solutions that benefit both people and the planet.
-        </p>
-
-        <h3 style="color:#2E7D32; margin-top:30px;">Our Mission</h3>
-        <p>
-            To integrate smart technology with green practices and create solutions
-            that contribute to a cleaner, healthier future.
-        </p>
-
-        <h3 style="color:#2E7D32; margin-top:30px;">Our Vision</h3>
-        <p>
-            A world where sustainability and innovation go hand in hand.
-        </p>
+    <!-- About Content -->
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content" data-aos="fade-up">
+                <h2 class="section-title">Who We Are</h2>
+                <div class="about-card">
+                    <p>
+                        Led by Suraj Bhole, an Economics postgraduate, The Smart Green combines economic efficiency,
+                        local sourcing, and modern supply-chain management to solve common problems such as inconsistent
+                        quality, price fluctuations, and unreliable delivery.
+                    </p>
+                    <p style="margin-top: 16px;">
+                        We work closely with local farmers, wholesalers, and trusted suppliers to ensure freshness,
+                        transparency, and long-term partnerships.
+                    </p>
+                    <p style="margin-top: 16px;">
+                        Our mission is to build a trusted food and essentials supply ecosystem for both businesses and
+                        households.
+                    </p>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <!-- Mission & Vision -->
+    <section class="features" style="padding: 100px 0;">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Our Values</h2>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-target"></i>
+                    </div>
+                    <h3>Our Mission</h3>
+                    <ul class="mission-list">
+                        <li>Deliver fresh, premium-quality products consistently</li>
+                        <li>Support local farmers and eco-friendly suppliers</li>
+                        <li>Provide smooth, technology-enabled ordering</li>
+                        <li>Maintain transparent pricing and customer trust</li>
+                        <li>Serve households and businesses efficiently</li>
+                    </ul>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Our Vision</h3>
+                    <p>To become one of India's most trusted and sustainable suppliers of food, natural products, and
+                        essential goods, creating positive impact for communities and the environment.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Our Values</h3>
+                    <ul class="mission-list">
+                        <li>Sustainability at our core</li>
+                        <li>Transparent partnerships</li>
+                        <li>Quality assurance</li>
+                        <li>Local community support</li>
+                        <li>Innovation and excellence</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container" data-aos="zoom-in">
+            <h2>Join Our Journey</h2>
+            <p>Partner with us to make a difference in sustainable living</p>
+            <a href="contact.html" class="btn btn-primary">Get In Touch</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="footer">
-        <p>© 2025 TheSmartGreen. All rights reserved.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TheSmartGreen</h4>
+                    <p>Smart, sustainable and eco-friendly solutions for a greener future.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to get updates on our latest solutions</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TheSmartGreen. All rights reserved.</p>
+                <p>Smart Supply • Sustainable Choices • Trusted Quality</p>
+            </div>
+        </div>
     </footer>
 
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="js/main.js"></script>
 
 </html>
