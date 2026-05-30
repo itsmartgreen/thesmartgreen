@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TheSmartGreen | Products</title>
+  <meta name="description" content="Shop eco-friendly products from TheSmartGreen." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="container">
+
+      <a href="index.html" class="logo">
+        <i class="fas fa-leaf"></i>
+        <span>TheSmartGreen</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav" id="navMenu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="products.html" class="nav-link active">Products</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="cart.html" class="nav-link">Cart</a>
+        <a href="contact.html" class="nav-link cta-link">Contact</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <div class="cart-box">
+    <a href="cart.html">
+      🛒 Cart:
+      <span id="cartCount">0</span>
+    </a>
+  </div>
+
+  <div id="notification" class="notification"></div>
+
+  <section class="hero">
+    <div class="stars"></div>
+
+    <div class="container hero-content">
+      <div class="hero-text">
+
+        <h1 class="hero-title">
+          Shop Eco Products
+        </h1>
+
+        <p class="hero-subtitle">
+          Premium sustainable supplies for home and business.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+
+  <section class="categories" style="padding:40px 0; background:var(--bg-light);">
+
+    <div class="container">
+
+      <div class="categories-grid">
+
+        <button class="category-btn active" data-category="all">
+          All Products
+        </button>
+
+        <button class="category-btn" data-category="fresh-vegetables">
+          Fresh Vegetables
+        </button>
+
+        <button class="category-btn" data-category="fresh-fruits">
+          Fresh Fruits
+        </button>
+
+        <button class="category-btn" data-category="exotic-vegetables">
+          Exotic Vegetables
+        </button>
+
+        <button class="category-btn" data-category="grocery-staples">
+          Grocery & Staples
+        </button>
+
+        <button class="category-btn" data-category="dairy-products">
+          Dairy Products
+        </button>
+
+        <button class="category-btn" data-category="nursery-garden">
+          Nursery & Garden
+        </button>
+
+        <button class="category-btn" data-category="cleaning-essentials">
+          Cleaning Essentials
+        </button>
+
+        <button class="category-btn" data-category="horeca-essentials">
+          HoReCa Daily Essentials
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Products -->
+
+  <section class="features" style="padding:60px 0;">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        Buy Our Eco Products
+      </h2>
+
+      <div class="features-grid" id="products-grid"></div>
+
+    </div>
+
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbx3VKkinXe8oIOB1eYz-UlkiQ3xk5vPcFxsqt8b6pEl5FyEFdoAWEwE6fUpyX954HNxkA/exec";
+
+    let products = [];
+
+    let currentCategory = "all";
+
+    const getProductQuantity = (productName) => {
+
+      if (typeof window.getCart !== "function")
+        return 0;
+
+      const cart =
+        window.getCart();
+
+      const item =
+        cart.find(
+          entry => entry.name === productName
+        );
+
+      return item ? item.quantity : 0;
+    };
+
+    const renderProductAction = (product) => {
+
+      const quantity =
+        getProductQuantity(product.name);
+
+      if (quantity > 0) {
+
+        return `
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              class="btn btn-secondary counter-btn decrement-btn"
+              data-product="${product.name}"
+              data-price="${product.price}">
+              -
+            </button>
+
+            <span class="quantity-badge">
+              ${quantity}
+            </span>
+
+            <button
+              type="button"
+              class="btn btn-secondary counter-btn increment-btn"
+              data-product="${product.name}"
+              data-price="${product.price}">
+              +
+            </button>
+
+          </div>
+        `;
+      }
+
+      return `
+        <button
+          type="button"
+          class="btn btn-primary add-to-cart-btn"
+          data-product="${product.name}"
+          data-price="${product.price}">
+          Add to Cart
+        </button>
+      `;
+    };
+
+    const renderProducts = (
+      category = "all"
+    ) => {
+
+      currentCategory =
+        category;
+
+      const grid =
+        document.getElementById(
+          "products-grid"
+        );
+
+      grid.innerHTML = "";
+
+      const filteredProducts =
+        category === "all"
+          ? products
+          : products.filter(
+            p => p.category === category
+          );
+
+      filteredProducts.forEach(
+        (product, index) => {
+
+          const card =
+            document.createElement(
+              "div"
+            );
+
+          card.className =
+            "feature-card";
+
+          card.innerHTML = `
+
+            ${product.image
+              ? `<img src="${product.image}" alt="${product.name}" />`
+              : ""
+            }
+
+            <h3>${product.name}</h3>
+
+            <p class="price">
+              ${product.price}
+            </p>
+
+            <p>
+              ${product.description}
+            </p>
+
+            <div class="action-wrapper">
+              ${renderProductAction(product)}
+            </div>
+          `;
+
+          grid.appendChild(card);
+
+        });
+    };
+
+    const loadProducts =
+      async () => {
+
+        try {
+
+          const response =
+            await fetch(API_URL);
+
+          const data =
+            await response.json();
+
+          products =
+            data.map(item => ({
+
+              id:
+                item.id,
+
+              name:
+                item.productName,
+
+              price:
+                `₹${item.price}`,
+
+              category:
+                item.category || "all",
+
+              image:
+                item.image ||
+                "https://via.placeholder.com/300",
+
+              description:
+                item.description || ""
+
+            }));
+
+          renderProducts();
+
+        } catch (error) {
+
+          console.error(
+            "Failed loading products",
+            error
+          );
+
+        }
+
+      };
+
+    const updateProductCard =
+      () => {
+
+        renderProducts(
+          currentCategory
+        );
+
+        if (
+          typeof window.updateCartUI ===
+          "function"
+        ) {
+          window.updateCartUI();
+        }
+
+      };
+
+    const initProductGridEvents =
+      () => {
+
+        const grid =
+          document.getElementById(
+            "products-grid"
+          );
+
+        grid.addEventListener(
+          "click",
+          event => {
+
+            const addButton =
+              event.target.closest(
+                ".add-to-cart-btn"
+              );
+
+            if (addButton) {
+
+              const name =
+                addButton.dataset.product;
+
+              const price =
+                addButton.dataset.price;
+
+              window.addToCart(
+                name,
+                price
+              );
+
+              updateProductCard();
+
+              return;
+            }
+
+            const incrementButton =
+              event.target.closest(
+                ".increment-btn"
+              );
+
+            if (
+              incrementButton
+            ) {
+
+              window.addToCart(
+                incrementButton.dataset.product,
+                incrementButton.dataset.price
+              );
+
+              updateProductCard();
+
+              return;
+            }
+
+            const decrementButton =
+              event.target.closest(
+                ".decrement-btn"
+              );
+
+            if (
+              decrementButton
+            ) {
+
+              const name =
+                decrementButton.dataset.product;
+
+              const cart =
+                window.getCart();
+
+              const item =
+                cart.find(
+                  p => p.name === name
+                );
+
+              if (!item)
+                return;
+
+              if (
+                item.quantity > 1
+              ) {
+
+                item.quantity--;
+
+                window.setCart(cart);
+
+              } else {
+
+                window.setCart(
+                  cart.filter(
+                    p => p.name !== name
+                  )
+                );
+
+              }
+
+              updateProductCard();
+            }
+
+          }
+        );
+
+      };
+
+    const initCategoryButtons =
+      () => {
+
+        document
+          .querySelectorAll(
+            ".category-btn"
+          )
+          .forEach(button => {
+
+            button.addEventListener(
+              "click",
+              () => {
+
+                document
+                  .querySelectorAll(
+                    ".category-btn"
+                  )
+                  .forEach(
+                    btn =>
+                      btn.classList.remove(
+                        "active"
+                      )
+                  );
+
+                button.classList.add(
+                  "active"
+                );
+
+                renderProducts(
+                  button.dataset.category
+                );
+
+              }
+            );
+
+          });
+
+      };
+
+    window.addEventListener(
+      "DOMContentLoaded",
+      async () => {
+
+        await loadProducts();
+
+        initCategoryButtons();
+
+        initProductGridEvents();
+
+        if (
+          typeof window.updateCartUI ===
+          "function"
+        ) {
+          window.updateCartUI();
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>

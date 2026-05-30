@@ -8,6 +8,97 @@ if (typeof AOS !== "undefined") {
   });
 }
 
+// Cart handling
+const getCart = () => {
+  let cart = [];
+  const storedCart = localStorage.getItem("cart");
+  if (storedCart) {
+    try {
+      const parsed = JSON.parse(storedCart);
+      cart = Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.warn("Invalid cart data in localStorage, resetting cart.", e);
+      cart = [];
+    }
+  }
+  // Migrate old cart format (array of strings) to new format (array of objects)
+  if (cart.length > 0 && typeof cart[0] === "string") {
+    cart = cart.map((item) => ({ name: item, price: "₹0", quantity: 1 }));
+    setCart(cart);
+  }
+  return cart;
+};
+const setCart = (cart) => localStorage.setItem("cart", JSON.stringify(cart));
+
+const updateCartUI = () => {
+  const countEl = document.getElementById("cartCount");
+  if (countEl) {
+    try {
+      const cart = getCart();
+      const totalItems = cart.reduce(
+        (sum, item) => sum + (item.quantity || 1),
+        0,
+      );
+      countEl.innerText = totalItems;
+    } catch (e) {
+      console.error("Error updating cart UI:", e);
+      countEl.innerText = "0";
+    }
+  }
+};
+
+window.updateCartUI = updateCartUI;
+
+window.addToCart = (productName, price = "₹0") => {
+  const cart = getCart();
+  const existingItem = cart.find((item) => item.name === productName);
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({ name: productName, price: price, quantity: 1 });
+  }
+  setCart(cart);
+  updateCartUI();
+  showNotification(`${productName} added to cart!`);
+};
+
+window.removeFromCart = (productName) => {
+  const cart = getCart();
+  const updatedCart = cart.filter((item) => item.name !== productName);
+  setCart(updatedCart);
+  updateCartUI();
+  if (typeof renderCart === "function") {
+    renderCart();
+  }
+};
+
+window.clearCart = () => {
+  localStorage.removeItem("cart");
+  updateCartUI();
+};
+
+// Notification function
+window.showNotification = (message) => {
+  const notification = document.getElementById("notification");
+  if (notification) {
+    notification.textContent = message;
+    notification.classList.add("show");
+    setTimeout(() => {
+      notification.classList.remove("show");
+    }, 3000);
+  }
+};
+
+// initialize cart count once DOM is ready
+window.addEventListener("DOMContentLoaded", updateCartUI);
+
+// Listen for storage changes to update cart count across tabs
+window.addEventListener("storage", (e) => {
+  if (e.key === "cart") {
+    updateCartUI();
+  }
+});
+
 // Mobile Menu Toggle
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
@@ -116,15 +207,15 @@ scrollToTopBtn.style.cssText = `
   right: 30px;
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #2e7d32, #66bb6a);
-  color: white;
+  background: linear-gradient(135deg, #0A4A3C, #0A4A3C);
+  color: #F3B759;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   display: none;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+  box-shadow: 0 4px 12px rgba(10, 74, 60, 0.3);
   transition: all 0.3s ease;
   z-index: 99;
   font-size: 20px;
