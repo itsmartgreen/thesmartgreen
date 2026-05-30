@@ -100,13 +100,24 @@ window.addEventListener("storage", (e) => {
 });
 
 // Mobile Menu Toggle
-const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.getElementById("navMenu");
+window.addEventListener("DOMContentLoaded", () => {
+  const menuToggle = document.getElementById("menuToggle");
+  const navMenu = document.getElementById("navMenu");
 
-if (menuToggle) {
+  if (!menuToggle || !navMenu) {
+    return;
+  }
+
+  const updateAria = (isOpen) => {
+    menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  };
+
+  updateAria(false);
+
   menuToggle.addEventListener("click", () => {
+    const isActive = navMenu.classList.toggle("active");
     menuToggle.classList.toggle("active");
-    navMenu.classList.toggle("active");
+    updateAria(isActive);
   });
 
   // Close menu when clicking on a link
@@ -114,9 +125,10 @@ if (menuToggle) {
     link.addEventListener("click", () => {
       menuToggle.classList.remove("active");
       navMenu.classList.remove("active");
+      updateAria(false);
     });
   });
-}
+});
 
 // Active Link Highlighting
 const currentPage = window.location.pathname.split("/").pop() || "index.html";

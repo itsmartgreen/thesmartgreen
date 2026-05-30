@@ -627,6 +627,19 @@ h6 {
   z-index: 200;
   font-weight: 700;
   color: #f3b759;
+  max-width: 260px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .cart-box {
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+    left: auto;
+    width: auto;
+    max-width: 90%;
+  }
 }
 
 .cart-box a {
@@ -972,9 +985,13 @@ h6 {
     display: flex;
   }
 
+  .header {
+    position: relative;
+  }
+
   .nav {
     position: absolute;
-    top: 70px;
+    top: 100%;
     left: 0;
     right: 0;
     background: var(--primary);
@@ -985,6 +1002,7 @@ h6 {
     box-shadow: var(--shadow-md);
     display: none;
     width: 100%;
+    z-index: 99;
   }
 
   .nav.active {
@@ -1100,17 +1118,4 @@ h6 {
   .benefit-number {
     font-size: 36px;
   }
-}
-
-.cart-box {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background: var(--primary);
-  border: 1px solid #f3b759;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-weight: bold;
-  z-index: 1000;
-  color: #f3b759;
 }
