@@ -3,157 +3,602 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>TheSmartGreen | Cart</title>
+
     <meta name="description" content="Your shopping cart" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        .cart-page {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .offer-banner {
+            background: #d8f7e7;
+            color: #0d8b55;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .coupon-box,
+        .cart-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+        }
+
+        .coupon-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .coupon-box p {
+            margin-top: 4px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .cart-header-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 14px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-left {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f8f8f8;
+            padding: 6px;
+        }
+
+        .cart-item-info strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-info small {
+            color: #666;
+        }
+
+        .cart-item-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .qty-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #ddd;
+            padding: 6px 10px;
+            border-radius: 10px;
+        }
+
+        .qty-btn {
+            border: none;
+            background: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #0A4A3C;
+            font-weight: bold;
+        }
+
+        .bill-row,
+        .bill-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .bill-total {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid #eee;
+        }
+
+        .checkout-bar {
+            position: sticky;
+            bottom: 0;
+            background: #fff;
+
+            max-width: 900px;
+            margin: 0 auto;
+
+            padding: 15px;
+
+            box-shadow: 0 -3px 12px rgba(0, 0, 0, .08);
+
+            border-radius: 12px 12px 0 0;
+
+            z-index: 100;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #1552ff;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-bar {
+                width: calc(100% - 24px);
+                margin: 0 auto;
+            }
+        }
+
+        .empty-cart-container {
+            text-align: center;
+            background: #fff;
+            border-radius: 14px;
+            padding: 50px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+        }
+
+        .empty-cart-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        @media(max-width:768px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cart-item-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
 </head>
 
 <body>
+
     <header class="header">
         <div class="container">
+
             <a href="index.html" class="logo">
                 <i class="fas fa-leaf"></i>
                 <span>TheSmartGreen</span>
             </a>
-            <button class="menu-toggle" id="menuToggle" type="button" aria-controls="navMenu" aria-expanded="false"
-                aria-label="Toggle navigation menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <nav class="nav" id="navMenu">
+
+            <nav class="nav">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="services.html" class="nav-link">Services</a>
                 <a href="products.html" class="nav-link">Products</a>
                 <a href="about.html" class="nav-link">About</a>
-                <!-- <a href="cart.html" class="nav-link active">Cart</a> -->
                 <a href="contact.html" class="nav-link">Contact</a>
             </nav>
+
         </div>
     </header>
 
-    <div class="cart-box">
-        <a href="cart.html">🛒 Cart: <span id="cartCount">0</span></a>
+    <div class="cart-box" style="display:none;">
+        🛒 Cart: <span id="cartCount">0</span>
     </div>
 
-    <div id="notification" class="notification"></div>
+    <section class="features" style="padding:80px 0;">
 
-    <section class="features" style="padding: 80px 0;">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Your Cart</h2>
-            <div id="cartItems" class="feature-card"
-                style="background:#fff; padding:20px; border-radius:12px; box-shadow:var(--shadow-sm);">
-                <!-- Cart items will be rendered here -->
+
+            <div class="cart-page">
+
+                <!-- EMPTY CART -->
+                <div id="emptyCartMessage" class="empty-cart-container" style="display:none;">
+
+                    <div class="empty-cart-icon">🛒</div>
+
+                    <h3>Your Cart is Empty</h3>
+
+                    <p>
+                        Looks like you haven't added anything yet.
+                    </p>
+
+                    <a href="products.html" class="btn btn-primary" style="margin-top:20px; display:inline-block;">
+                        Continue Shopping
+                    </a>
+
+                </div>
+
+                <!-- CART CONTENT -->
+                <div id="cartContent">
+
+                    <h2 class="section-title">
+                        Your Cart
+                    </h2>
+
+                    <div class="offer-banner">
+                        Save more on every order with TheSmartGreen 🌱
+                    </div>
+
+                    <!-- <div class="coupon-box">
+                        <div>
+                            <strong>Apply Coupon</strong>
+                            <p>Save more with offers available</p>
+                        </div>
+                        <span>›</span>
+                    </div> -->
+
+                    <div class="cart-card">
+
+                        <div class="cart-header-row">
+                            <h4>Fast Delivery</h4>
+                            <span id="cartItemCount">
+                                0 Items
+                            </span>
+                        </div>
+
+                        <div id="cartItems"></div>
+
+                    </div>
+
+                    <div class="cart-card">
+
+                        <h4>BILL DETAILS</h4>
+
+                        <div class="bill-row">
+                            <span>Item Total</span>
+                            <span id="billItemTotal">₹0</span>
+                        </div>
+
+                        <div class="bill-row">
+                            <span>Handling Fee</span>
+                            <span>₹12</span>
+                        </div>
+
+                        <div class="bill-row">
+                            <span>Delivery Partner Fee</span>
+                            <span>₹30</span>
+                        </div>
+
+                        <div class="bill-row">
+                            <span>GST & Charges</span>
+                            <span>₹5</span>
+                        </div>
+
+                        <div class="bill-total">
+                            <strong>To Pay:</strong>
+                            <strong id="totalAmount">₹0</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
-            <div id="emptyCartMessage" class="empty-cart-container" style="display:none;">
-                <div class="empty-cart-icon">🛒</div>
-                <h3>Your Cart is Empty</h3>
-                <p>Looks like you haven't added anything to your cart yet.</p>
-                <p>Browse our eco-friendly products and add your favorites!</p>
-                <a href="products.html" class="btn btn-primary" style="margin-top:20px; display:inline-block;">Continue
-                    Shopping</a>
-            </div>
-            <div id="cartSummary" style="margin-top:20px; text-align:right; display:none;">
-                <h3>Total: <span id="totalAmount">₹0</span></h3>
-                <button class="btn btn-primary" id="checkoutBtn">Checkout with Razorpay</button>
-            </div>
+
         </div>
     </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <div class="checkout-bar">
+        <button class="checkout-btn" id="checkoutBtn">
+
+            Proceed with phone number
+
+        </button>
+    </div>
+
     <script src="js/main.js"></script>
+
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <script>
         const parsePrice = (priceStr) => {
-            const match = priceStr.match(/₹(\d+)/);
-            return match ? parseInt(match[1]) : 0;
+            const match =
+                priceStr.match(/₹(\d+)/);
+
+            return match
+                ? parseInt(match[1])
+                : 0;
         };
 
-        const renderCart = () => {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            const container = document.getElementById("cartItems");
-            const empty = document.getElementById("emptyCartMessage");
-            const summary = document.getElementById("cartSummary");
-            const totalEl = document.getElementById("totalAmount");
+        function updateQty(name, change) {
+
+            let cart =
+                JSON.parse(
+                    localStorage.getItem("cart")
+                ) || [];
+
+            cart = cart
+                .map(item => {
+                    if (item.name === name) {
+                        item.quantity += change;
+                    }
+                    return item;
+                })
+                .filter(item => item.quantity > 0);
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+            renderCart();
+
+            updateCartUI?.();
+        }
+
+        function renderCart() {
+
+            const cart =
+                JSON.parse(
+                    localStorage.getItem("cart")
+                ) || [];
+
+            const container =
+                document.getElementById(
+                    "cartItems"
+                );
+
+            const empty =
+                document.getElementById(
+                    "emptyCartMessage"
+                );
+
+            const cartContent =
+                document.getElementById(
+                    "cartContent"
+                );
+
+            const checkoutBar =
+                document.querySelector(
+                    ".checkout-bar"
+                );
+
+            const totalEl =
+                document.getElementById(
+                    "totalAmount"
+                );
+
+            const itemTotalEl =
+                document.getElementById(
+                    "billItemTotal"
+                );
+
             container.innerHTML = "";
 
             if (!cart.length) {
+
                 empty.style.display = "block";
-                container.style.display = "none";
-                summary.style.display = "none";
+
+                cartContent.style.display =
+                    "none";
+
+                checkoutBar.style.display =
+                    "none";
+
+                document.getElementById(
+                    "cartCount"
+                ).textContent = 0;
+
                 return;
             }
 
             empty.style.display = "none";
-            container.style.display = "block";
-            summary.style.display = "block";
+
+            cartContent.style.display =
+                "block";
+
+            checkoutBar.style.display =
+                "block";
 
             let total = 0;
-            cart.forEach((item, index) => {
-                const itemTotal = parsePrice(item.price) * item.quantity;
-                total += itemTotal;
-                const itemDiv = document.createElement("div");
-                itemDiv.className = "cart-item";
-                itemDiv.innerHTML = `
-                    <div class="cart-item-info">
-                        <strong>${item.name}</strong> - ${item.price} x ${item.quantity} = ₹${itemTotal}
-                    </div>
-                    <button class="cart-item-remove" onclick="removeFromCart('${item.name}')">Remove</button>
-                `;
-                container.appendChild(itemDiv);
-            });
-            totalEl.textContent = `₹${total}`;
-        };
 
-        const checkout = () => {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.forEach(item => {
+
+                const itemTotal =
+                    parsePrice(item.price)
+                    * item.quantity;
+
+                total += itemTotal;
+
+                const itemDiv =
+                    document.createElement("div");
+
+                itemDiv.className =
+                    "cart-item";
+
+                itemDiv.innerHTML = `
+                    <div class="cart-item-left">
+
+                        ${item.image
+                        ? `<img
+                            src="${item.image}"
+                            class="cart-item-image"
+                            alt="${item.name}">`
+                        : ""}
+
+                        <div class="cart-item-info">
+
+                            <strong>
+                                ${item.name}
+                            </strong>
+
+                            <small>
+                                ${item.price}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="cart-item-right">
+
+                        <div class="qty-box">
+
+                            <button
+                                class="qty-btn"
+                                onclick="updateQty('${item.name}', -1)">
+                                −
+                            </button>
+
+                            <span>
+                                ${item.quantity}
+                            </span>
+
+                            <button
+                                class="qty-btn"
+                                onclick="updateQty('${item.name}', 1)">
+                                +
+                            </button>
+
+                        </div>
+
+                        <strong>
+                            ₹${itemTotal}
+                        </strong>
+
+                    </div>
+                `;
+
+                container.appendChild(itemDiv);
+
+            });
+
+            const finalTotal =
+                total + 12 + 30 + 5;
+
+            totalEl.textContent =
+                `₹${finalTotal}`;
+
+            itemTotalEl.textContent =
+                `₹${total}`;
+
+            document.getElementById(
+                "cartCount"
+            ).textContent =
+                cart.length;
+
+            document.getElementById(
+                "cartItemCount"
+            ).textContent =
+                `${cart.length} items`;
+        }
+
+        function checkout() {
+
+            const cart =
+                JSON.parse(
+                    localStorage.getItem("cart")
+                ) || [];
+
             if (!cart.length) return;
 
             let total = 0;
+
             cart.forEach(item => {
-                total += parsePrice(item.price) * item.quantity;
+                total +=
+                    parsePrice(item.price)
+                    * item.quantity;
             });
 
+            total += 47;
+
             const options = {
-                key: 'rzp_test_your_key_here', // Replace with your Razorpay test key
-                amount: total * 100, // Amount in paise
-                currency: 'INR',
-                name: 'TheSmartGreen',
-                description: 'Purchase from TheSmartGreen',
-                handler: function (response) {
-                    alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
-                    localStorage.removeItem("cart");
-                    updateCartUI();
-                    renderCart();
-                },
-                prefill: {
-                    name: 'Customer Name',
-                    email: 'customer@example.com',
-                    contact: '9999999999'
-                },
+
+                key:
+                    'rzp_test_your_key_here',
+
+                amount:
+                    total * 100,
+
+                currency:
+                    'INR',
+
+                name:
+                    'TheSmartGreen',
+
+                description:
+                    'Purchase from TheSmartGreen',
+
+                handler:
+                    function (response) {
+
+                        alert(
+                            'Payment successful! Payment ID: '
+                            + response.razorpay_payment_id
+                        );
+
+                        localStorage.removeItem(
+                            "cart"
+                        );
+
+                        renderCart();
+
+                        updateCartUI?.();
+                    },
+
                 theme: {
                     color: '#0A4A3C'
                 }
             };
-            const rzp = new Razorpay(options);
+
+            const rzp =
+                new Razorpay(options);
+
             rzp.open();
-        };
+        }
 
-        document.getElementById("checkoutBtn").addEventListener("click", checkout);
+        document
+            .getElementById(
+                "checkoutBtn"
+            )
+            .addEventListener(
+                "click",
+                checkout
+            );
 
-        window.addEventListener("DOMContentLoaded", () => {
-            renderCart();
-        });
+        window.addEventListener(
+            "DOMContentLoaded",
+            renderCart
+        );
 
-        // Listen for storage changes to update cart display across tabs
-        window.addEventListener("storage", (e) => {
-            if (e.key === "cart") {
-                renderCart();
+        window.addEventListener(
+            "storage",
+            e => {
+                if (e.key === "cart") {
+                    renderCart();
+                }
             }
-        });
+        );
     </script>
+
 </body>
 
 </html>
